@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body {
+  @apply bg-radix-mauve1 text-radix-mauve12;
+}
+
+.dark {
+  color-scheme: dark;
+}
