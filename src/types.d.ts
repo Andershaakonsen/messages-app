@@ -4,6 +4,6 @@
 type Contact = {
   firstName: string;
   lastName: string;
-  phoneNumber: string;
+  email: string;
   id: number;
 };
