@@ -1,15 +1,15 @@
 import React, { ReactNode, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Contact } from "../types";
+import { useAddContact } from "../context/ContactContext";
 
-interface Props {
-  setContacts: React.Dispatch<React.SetStateAction<Contact[]>>;
-}
+const ContactForm = () => {
+  //Context
+  const addContact = useAddContact();
 
-const ContactForm = ({ setContacts }: Props) => {
   const { register, handleSubmit, reset } = useForm<Contact>();
+
   const onSubmit = (data: Contact) => {
-    setContacts((prevState) => [...prevState, data]);
+    addContact(data);
     reset({ firstName: "", lastName: "", phoneNumber: "" });
   };
 
