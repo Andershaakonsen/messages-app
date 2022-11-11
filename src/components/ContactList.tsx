@@ -1,11 +1,20 @@
+import { collection, getDocs } from "firebase/firestore";
 import React, { useState } from "react";
 import { splitVendorChunkPlugin } from "vite";
 import { useContactsContext } from "../context/ContactContext";
+import { db } from "../firebase-config";
 import ContactCard from "./ContactCard";
 
 const ContactList = () => {
   const { contacts, getContactsSize } = useContactsContext();
   const [userSearch, setUserSearch] = useState("");
+  // const [users, setUsers] = useState([]);
+  // const usersCollectionRef = collection(db, "contacts");
+
+  // const getUsers = async () => {
+  //   const data = await getDocs(usersCollectionRef);
+  //   setUsers(data.docs.map((doc) => ({ ...doc.data() })));
+  // };
 
   return (
     <div className="flex flex-col">

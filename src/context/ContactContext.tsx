@@ -1,4 +1,15 @@
-import React, { useContext, useState } from "react";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  onSnapshot,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
+import React, { useContext, useEffect, useState } from "react";
+import { db } from "../firebase-config";
 
 //Exported for reusability - Every value in context MUST be typed HERE
 export interface IContactContext {
@@ -20,41 +31,55 @@ interface ContactProviderProps {
 //Centralized place where all business logic is handled
 export const ContactProvider = ({ children }: ContactProviderProps) => {
   const [contacts, setContacts] = useState<Contact[]>([]);
+  const [userSearch, setUserSearch] = useState("");
+
+  const contactsRef = collection(db, "contacts");
+
+  //Set data
 
   //Helper functions
-
   const getContactsSize = () => {
     return contacts.length;
   };
 
-  const getId = (arr: Contact[]) => {
-    if (arr.length == 0) {
-      return 0;
-    }
-    return arr.length;
-  };
-
-  //ADD
-
-  const addContact = (contact: Contact) =>
-    setContacts((prevState) => [
-      ...prevState,
-      { ...contact, id: getId(prevState) },
-    ]);
-
-  const updateContact = (contact: Contact) => {
-    setContacts((prevState) =>
-      prevState.map((c) => {
-        if (c.id == contact.id) {
-          return contact;
-        }
-        return c;
-      })
+  //Gets Contacts
+  useEffect(() => {
+    const unSubscribe = onSnapshot(
+      collection(db, "contacts"),
+      (contactsCollection) => {
+        const contacts = contactsCollection.docs.map((doc) => {
+          return {
+            id: doc.id,
+            ...doc.data(),
+          } as Contact;
+        });
+        setContacts(contacts);
+      }
     );
+    return () => unSubscribe();
+  }, []);
+
+  const addContact = async (contact: Contact) => {
+    // setContacts((prevState) => [
+    //   ...prevState,
+    //   { ...contact, id: getId(prevState) },
+    // ]);
+    //Adds document to contacts collection
+    await addDoc(collection(db, "contacts"), {
+      firstName: contact.firstName,
+      lastName: contact.lastName,
+      email: contact.email,
+    });
   };
 
-  const deleteContact = (contact: Contact) => {
-    setContacts((prevState) => prevState.filter((c) => c.id !== contact.id));
+  const updateContact = async (contact: Contact) => {
+    await updateDoc(doc(db, "contacts", contact.id), {
+      ...contact,
+    });
+  };
+
+  const deleteContact = async (contact: Contact) => {
+    await deleteDoc(doc(db, "contacts", contact.id)).catch();
   };
 
   return (

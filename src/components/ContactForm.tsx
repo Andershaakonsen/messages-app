@@ -7,7 +7,6 @@ export interface IContactForm {
 }
 
 const ContactForm = ({ setShowAddContact }: IContactForm) => {
-  //TODO toast library
   //Context
   const addContact = useAddContact();
   const { register, handleSubmit, reset } = useForm<Contact>();

@@ -4,6 +4,8 @@ import { IoMdTrash } from "react-icons/io";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useDeleteContact, useUpdateContact } from "../context/ContactContext";
 import { useToast } from "../context/ToastContext";
+import equal from "fast-deep-equal";
+
 import AlertDialog from "./AlertDialog";
 export interface IContactCard {
   contact: Contact;
@@ -34,7 +36,7 @@ const ContactCard = ({ contact }: IContactCard) => {
     };
 
     //No changes made
-    if (JSON.stringify(contact) === JSON.stringify(newContact)) {
+    if (equal(contact, newContact)) {
       toast.open({
         message: "No changes made",
         background: "var(--violet9)",
@@ -119,7 +121,9 @@ const ContactCard = ({ contact }: IContactCard) => {
               onConfirm={handleDelete}
               confirmText="Delete"
             >
-              <IoMdTrash className="text-2xl text-radix-red10 hover:text-radix-red12 cursor-pointer  hover:scale-110 transition-all" />
+              <button>
+                <IoMdTrash className="text-2xl text-radix-red10 hover:text-radix-red12 cursor-pointer  hover:scale-110 transition-all" />
+              </button>
             </AlertDialog>
           </div>
         </>
