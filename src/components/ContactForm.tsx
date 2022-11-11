@@ -20,9 +20,9 @@ const ContactForm = ({ setShowAddContact }: IContactForm) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex m-4 flex-col w-full md:w-2/3"
+      className="flex flex-col w-full md:w-2/3"
     >
-      <div className="flex mt-4 w-full justify-center ">
+      <div className="flex w-full justify-center ">
         <h2 className="text font-bold">Add Contact</h2>
       </div>
       <div className="flex  mt-4 w-full justify-center">

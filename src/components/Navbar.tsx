@@ -1,27 +1,26 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-type Props = {};
-
-const Navbar = (props: Props) => {
+const Navbar = () => {
   return (
     <nav className="w-full border-t border-radix-mauve3 h-12 flex items-center fixed bottom-0 z-50 ">
       <ul className="w-full flex justify-around">
-        <a href="/" className="text-radix-mauve11 hover:text-radix-mauve12">
+        <Link to="/" className="text-radix-mauve11 hover:text-radix-mauve12">
           Contacts
-        </a>
-        <a
-          href="/messages"
+        </Link>
+        <Link
+          to="/messages"
           className="text-radix-mauve11 hover:text-radix-mauve12"
         >
           Messages
-        </a>
+        </Link>
 
-        <a
-          href="/appointments"
+        <Link
+          to="/appointments"
           className="text-radix-mauve11 hover:text-radix-mauve12"
         >
           Appointments
-        </a>
+        </Link>
       </ul>
     </nav>
   );

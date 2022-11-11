@@ -15,7 +15,8 @@
     "isolatedModules": true,
     "downlevelIteration": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "baseUrl": "./src"
   },
   "include": ["**/*.ts", "**/*.tsx", "types/**/*.ts"],
   "exclude": ["node_modules", "node_modules/**/*"]

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { MdModeEditOutline } from "react-icons/md";
 import { IoMdTrash } from "react-icons/io";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useDeleteContact, useUpdateContact } from "../context/ContactContext";
 import { useToast } from "../context/ToastContext";
 import equal from "fast-deep-equal";
+import { AiFillMessage } from "react-icons/ai";
 
 import AlertDialog from "./AlertDialog";
 export interface IContactCard {
@@ -54,6 +56,8 @@ const ContactCard = ({ contact }: IContactCard) => {
     deleteContact(contact);
     toast.error(`Deleted ${contact.firstName} from list!`);
   };
+
+  const handleMessage = () => {};
 
   return (
     <div className="flex w-full justify-between border-b border-radix-mauve4 bg-radix-mauve2 hover:bg-radix-mauve3">
@@ -112,6 +116,12 @@ const ContactCard = ({ contact }: IContactCard) => {
             <p className="italic">{email}</p>
           </div>
           <div className="flex items-center ">
+            <Link to={`/messages?contactId=${contact.id}`}>
+              <AiFillMessage
+                onClick={handleMessage}
+                className="text-2xl text-radix-blue9 hover:text-radix-blue12 cursor-pointer hover:scale-110 transition-all"
+              />
+            </Link>
             <MdModeEditOutline
               onClick={() => setEdit(true)}
               className="text-2xl text-radix-green10 hover:text-radix-green12 cursor-pointer hover:scale-110 transition-all"

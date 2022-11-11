@@ -3,9 +3,7 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDocs,
   onSnapshot,
-  setDoc,
   updateDoc,
 } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
@@ -20,6 +18,7 @@ export interface IContactContext {
   getContactsSize: () => number;
   updateContact: (contact: Contact) => void;
   deleteContact: (contact: Contact) => void;
+  getContactFromId: (id: string) => Contact | null;
 }
 
 //Creating a context, with a type of Contact Context Interface, and set the default value to undefined temporarily when creating the context;
@@ -42,7 +41,6 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
     return contacts.length;
   };
 
-  //Gets Contacts
   useEffect(() => {
     const unSubscribe = onSnapshot(
       collection(db, "contacts"),
@@ -79,8 +77,12 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
   };
 
   const deleteContact = async (contact: Contact) => {
-    await deleteDoc(doc(db, "contacts", contact.id)).catch();
+    await deleteDoc(doc(db, "contacts", contact.id));
   };
+
+  const getContactFromId = (id: string) =>
+    //if contact is undefined return null
+    contacts.find((c) => c.id === id) ?? null;
 
   return (
     <ContactContext.Provider
@@ -90,6 +92,7 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
         getContactsSize,
         updateContact,
         deleteContact,
+        getContactFromId,
       }}
     >
       {children}
@@ -109,3 +112,4 @@ export const useAddContact = () => useContactsContext().addContact;
 export const useGetContactsSize = () => useContactsContext().getContactsSize;
 export const useUpdateContact = () => useContactsContext().updateContact;
 export const useDeleteContact = () => useContactsContext().deleteContact;
+export const useGetContactFromId = () => useContactsContext().getContactFromId;

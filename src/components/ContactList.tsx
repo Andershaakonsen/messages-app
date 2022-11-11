@@ -8,17 +8,10 @@ import ContactCard from "./ContactCard";
 const ContactList = () => {
   const { contacts, getContactsSize } = useContactsContext();
   const [userSearch, setUserSearch] = useState("");
-  // const [users, setUsers] = useState([]);
-  // const usersCollectionRef = collection(db, "contacts");
-
-  // const getUsers = async () => {
-  //   const data = await getDocs(usersCollectionRef);
-  //   setUsers(data.docs.map((doc) => ({ ...doc.data() })));
-  // };
 
   return (
     <div className="flex flex-col">
-      <div className="font-bold mt-4 flex justify-center">
+      <div className="font-bold flex justify-center">
         <h2>Contacts</h2>
       </div>
       <div className="flex flex-col items-center">
@@ -33,7 +26,7 @@ const ContactList = () => {
           Search for one of your {getContactsSize()} contacts
         </p>
       </div>
-      <div className="flex flex-col items-center border h-96 mt-2 border-radix-mauve6">
+      <div className="flex flex-col items-center border h-96 mt-2 border-radix-mauve4 rounded-lg overflow-y-scroll">
         {contacts.map((el) => (
           <ContactCard contact={el} key={el.id} />
         ))}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
-import ContactForm from "./ContactForm";
-import ContactList from "./ContactList";
+import ContactForm from "components/ContactForm";
+import ContactList from "components/ContactList";
 
 const Contacts = () => {
   const [showAddContact, setShowAddContact] = useState(false);
