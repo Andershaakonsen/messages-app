@@ -14,8 +14,9 @@ interface User {
 
 const AuthPage = () => {
   const [signUpPage, setSignUpPage] = useState(false);
-  const { register, handleSubmit, reset } = useForm<User>();
+  const { register, handleSubmit } = useForm<User>();
   const Toast = useToast();
+
   const onLogin = (data: User) => {
     // e.preventDefault();
     // reset({ firstName: "", lastName: "", email: "" });
@@ -27,8 +28,6 @@ const AuthPage = () => {
   };
 
   const onSignUp = (data: User) => {
-    // e.preventDefault();
-    console.log(data.email, data.password);
     createUserWithEmailAndPassword(auth, data.email, data.password).catch(
       (error) => {
         Toast.error(error.code);

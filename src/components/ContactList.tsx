@@ -1,11 +1,8 @@
-import { collection, getDocs } from "firebase/firestore";
 import React, { useState } from "react";
-import { splitVendorChunkPlugin } from "vite";
 import { useContactsContext } from "../context/ContactContext";
-import { db } from "../firebase-config";
 import ContactCard from "./ContactCard";
 
-const ContactList = () => {
+function ContactList() {
   const { contacts, getContactsSize } = useContactsContext();
   const [userSearch, setUserSearch] = useState("");
 
@@ -22,6 +19,7 @@ const ContactList = () => {
           value={userSearch}
           onChange={(e) => setUserSearch(e.target.value)}
         />
+
         <p className="font-light italic text-sm w-96">
           Search for one of your {getContactsSize()} contacts
         </p>
@@ -33,6 +31,6 @@ const ContactList = () => {
       </div>
     </div>
   );
-};
+}
 
 export default ContactList;

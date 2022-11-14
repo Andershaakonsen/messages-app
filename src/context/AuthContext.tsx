@@ -1,5 +1,5 @@
 import { auth } from "firebase-config";
-import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 import { createContext, useContext, useState } from "react";
 
 interface IAuthContext {
@@ -11,6 +11,7 @@ interface AuthProvider {
   children: React.ReactNode;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 export const AuthContext = createContext<IAuthContext>(undefined!);
 
 export const AuthProvider = ({ children }: AuthProvider) => {
@@ -18,10 +19,6 @@ export const AuthProvider = ({ children }: AuthProvider) => {
   const [loading, setLoading] = useState(false);
 
   onAuthStateChanged(auth, (user) => {
-    console.log(
-      "🚀 ~ file: AuthContext.tsx ~ line 21 ~ onAuthStateChanged ~ user",
-      user
-    );
     if (user) {
       setUser(user);
     } else {
@@ -37,3 +34,4 @@ export const AuthProvider = ({ children }: AuthProvider) => {
 };
 
 export const useAuthContext = () => useContext(AuthContext);
+export const useUser = () => useAuthContext().user;
