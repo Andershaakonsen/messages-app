@@ -1,3 +1,4 @@
+import React from "react";
 import { auth } from "firebase-config";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { createContext, useContext, useState } from "react";
@@ -9,6 +10,11 @@ interface IAuthContext {
 
 interface AuthProvider {
   children: React.ReactNode;
+}
+
+export interface Account extends User {
+  firstName: string;
+  lastName: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

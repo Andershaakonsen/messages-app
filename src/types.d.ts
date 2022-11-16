@@ -10,13 +10,13 @@ interface Contact {
 
 interface Room {
   id: string;
-  users: Record<string, string>;
+  users: Record<string, string | null>;
 }
 
 interface Message {
   id: string;
   text: string;
-  senderName: string;
+  senderEmail: string;
   senderId: string;
   createdAt: Date;
 }

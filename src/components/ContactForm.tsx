@@ -1,17 +1,19 @@
-import React, { ReactNode, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useAddContact } from "../context/ContactContext";
 import { IoMdArrowBack } from "react-icons/io";
+import { Account } from "context/AuthContext";
 export interface IContactForm {
   setShowAddContact: (bool: boolean) => void;
+  onSubmit: (account: Account) => void;
 }
 
 const ContactForm = ({ setShowAddContact }: IContactForm) => {
   //Context
   const addContact = useAddContact();
-  const { register, handleSubmit, reset } = useForm<Contact>();
+  const { register, handleSubmit, reset } = useForm<Account>();
 
-  const onSubmit = (data: Contact) => {
+  const onSubmit = (data: Account) => {
     addContact(data);
     reset({ firstName: "", lastName: "", email: "" });
     setShowAddContact(false);

@@ -10,6 +10,7 @@ type Props = {
   onConfirm: () => void;
 };
 
+//Testing!
 const AlertDialog = ({
   children,
   confirmText,
@@ -24,7 +25,7 @@ const AlertDialog = ({
         {Children.only(children)}
       </AlertDialogPrimitive.Trigger>
       <AlertDialogPrimitive.Portal>
-       <AlertDialogPrimitive.Overlay className="AlertDialogOverlay" />
+        <AlertDialogPrimitive.Overlay className="AlertDialogOverlay" />
         <AlertDialogPrimitive.Content className="AlertDialogContent">
           <AlertDialogPrimitive.Title className="AlertDialogTitle">
             {title}
@@ -40,7 +41,7 @@ const AlertDialog = ({
               gap: 25,
               justifyContent: "center",
               marginTop: 4,
-           }}
+            }}
           >
             <AlertDialogPrimitive.Cancel asChild>
               <button className="Button mauve">Cancel</button>

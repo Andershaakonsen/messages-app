@@ -11,6 +11,7 @@ const Messages = () => {
   const [room, setRoom] = useState<Room | null>(null);
   const mountedRef = useRef(false);
   const user = useUser();
+  const [receiverContact, setReceiverContact] = useState<Contact | null>();
 
   const [input, setInput] = useState("");
   const [params] = useSearchParams();
@@ -25,20 +26,22 @@ const Messages = () => {
     }
   });
 
-  const handleGetRoom = async (receiver: Contact) => {
+  async function handleGetRoom(receiver: Contact) {
     if (!user || !receiver) return;
+    setReceiverContact(receiver);
 
+    //The combination of emails needed for firestore to be able to find
     const usersMap = {
-      [user.uid]: user.uid,
-      [receiver.id]: receiver.id,
+      [user.email!]: user.email,
+      [receiver.email]: receiver.email,
     };
 
-    // check if room exists
+    // Query to check if the logged in user and the selected contact has an existing room document in the db
     const q = query(collection(db, "rooms"), where("users", "==", usersMap));
 
     const querySnapshot = await getDocs(q);
     if (querySnapshot.size) {
-      //if room exists, set room state
+      //If room exists (.size), then set state and exit the function
       const roomSnapshot = querySnapshot.docs[0];
       const room: Room = {
         id: roomSnapshot.id,
@@ -48,18 +51,25 @@ const Messages = () => {
       return;
     }
 
+    //Combination of emails participating in the room
     const insert = {
       users: usersMap,
     };
-    //if room does not exists, create room and set state
+
+    // if room does not exists, create room and set state
+    // addDoc adds new document("row") to specified collectionref("table")
+    // second param is the data to insert, which is the insert variable containing users
+
+    //Query to
     const doc = await addDoc(collection(db, "rooms"), insert);
 
+    //Setting room state with, the id from addDoc response, and the data we passed in
     const room = {
       id: doc.id,
       ...insert,
     };
     setRoom(room);
-  };
+  }
 
   useEffect(() => {
     if (!contactId || mountedRef.current) return;
@@ -72,7 +82,11 @@ const Messages = () => {
   return (
     <div>
       {room ? (
-        <Conversation room={room} setRoom={setRoom} />
+        <Conversation
+          room={room}
+          setRoom={setRoom}
+          receiverContact={receiverContact}
+        />
       ) : (
         <div className="flex flex-col ">
           <label className="text-radix-mauve11 ">Send message to: </label>

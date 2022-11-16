@@ -16,7 +16,8 @@
     "downlevelIteration": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "useUnknownInCatchVariables": false
   },
   "include": ["**/*.ts", "**/*.tsx", "types/**/*.ts"],
   "exclude": ["node_modules", "node_modules/**/*"]

@@ -52,9 +52,13 @@ const ContactCard = ({ contact }: IContactCard) => {
     setEdit(false);
   };
 
-  const handleDelete = () => {
-    deleteContact(contact);
-    toast.error(`Deleted ${contact.firstName} from list!`);
+  const handleDelete = async () => {
+    try {
+      await deleteContact(contact);
+      toast.error(`Deleted ${contact.firstName} from list!`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleMessage = () => {};

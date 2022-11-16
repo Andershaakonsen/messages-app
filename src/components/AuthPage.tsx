@@ -1,9 +1,9 @@
 import { useToast } from "context/ToastContext";
-import { auth } from "firebase-config";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { auth } from "firebase-config";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -16,10 +16,7 @@ const AuthPage = () => {
   const [signUpPage, setSignUpPage] = useState(false);
   const { register, handleSubmit } = useForm<User>();
   const Toast = useToast();
-
   const onLogin = (data: User) => {
-    // e.preventDefault();
-    // reset({ firstName: "", lastName: "", email: "" });
     signInWithEmailAndPassword(auth, data.email, data.password).catch(
       (error) => {
         Toast.error(error.code);
@@ -28,6 +25,8 @@ const AuthPage = () => {
   };
 
   const onSignUp = (data: User) => {
+    // e.preventDefault();
+    console.log(data.email, data.password);
     createUserWithEmailAndPassword(auth, data.email, data.password).catch(
       (error) => {
         Toast.error(error.code);

@@ -8,13 +8,14 @@ import {
 } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
 import { db } from "../firebase-config";
+import { Account, useUser } from "./AuthContext";
 
 //Exported for reusability - Every value in context MUST be typed HERE
 export interface IContactContext {
   contacts: Contact[];
 
   // Giving type to addContact, but when its a function you call it a signature
-  addContact: (contact: Contact) => void;
+  addContact: (account: Account) => void;
   getContactsSize: () => number;
   updateContact: (contact: Contact) => void;
   deleteContact: (contact: Contact) => void;
@@ -30,9 +31,10 @@ interface ContactProviderProps {
 //Centralized place where all business logic is handled
 export const ContactProvider = ({ children }: ContactProviderProps) => {
   const [contacts, setContacts] = useState<Contact[]>([]);
-  const [userSearch, setUserSearch] = useState("");
+  // const [userSearch, setUserSearch] = useState("");
+  const user = useUser();
 
-  const contactsRef = collection(db, "contacts");
+  // const contactsRef = collection(db, "contacts");
 
   //Set data
 
@@ -42,42 +44,43 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
   };
 
   useEffect(() => {
-    const unSubscribe = onSnapshot(
-      collection(db, "contacts"),
-      (contactsCollection) => {
-        const contacts = contactsCollection.docs.map((doc) => {
-          return {
-            id: doc.id,
-            ...doc.data(),
-          } as Contact;
-        });
-        setContacts(contacts);
-      }
-    );
-    return () => unSubscribe();
-  }, []);
+    if (!user?.uid) return;
+    const contactsRef = collection(db, "accounts", user.uid, "contacts");
 
-  const addContact = async (contact: Contact) => {
-    // setContacts((prevState) => [
-    //   ...prevState,
-    //   { ...contact, id: getId(prevState) },
-    // ]);
-    //Adds document to contacts collection
-    await addDoc(collection(db, "contacts"), {
-      firstName: contact.firstName,
-      lastName: contact.lastName,
-      email: contact.email,
+    const unSubscribe = onSnapshot(contactsRef, (contactsCollection) => {
+      const contacts = contactsCollection.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        } as Contact;
+      });
+      setContacts(contacts);
+    });
+    return () => unSubscribe();
+  }, [user?.uid]);
+
+  const addContact = async (account: Account) => {
+    await addDoc(collection(db, "accounts", user!.uid, "contacts"), {
+      firstName: account.firstName,
+      lastName: account.lastName,
+      email: account.email,
     });
   };
 
+  // const updateContact = async (contact: Contact) => {
+  //   await updateDoc(doc(db, "contacts", contact.id), {
+  //     ...contact,
+  //   });
+  // };
+
   const updateContact = async (contact: Contact) => {
-    await updateDoc(doc(db, "contacts", contact.id), {
+    await updateDoc(doc(db, "accounts", user!.uid, "contacts", contact.id), {
       ...contact,
     });
   };
 
   const deleteContact = async (contact: Contact) => {
-    await deleteDoc(doc(db, "contacts", contact.id));
+    await deleteDoc(doc(db, "accounts", user!.uid, "contacts", contact.id));
   };
 
   const getContactFromId = (id: string) =>

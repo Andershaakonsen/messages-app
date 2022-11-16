@@ -17,7 +17,7 @@ const App = () => {
           <div className="container mx-auto  ">
             <div className="flex justify-end">
               <button onClick={() => auth.signOut()} className="cursor-pointer">
-                Log Out
+                {user.email}
               </button>
             </div>
             <Routes>
