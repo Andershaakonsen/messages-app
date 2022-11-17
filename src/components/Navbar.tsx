@@ -7,20 +7,20 @@ const Navbar = () => {
       <ul className="w-full flex justify-around">
         <Link
           to="/"
-          className="text-radix-mauve11 hover:text-radix-mauve12 hover:scale-110 transition-all"
+          className="text-radix-mauve11 hover:text-radix-violet11 hover:scale-110 transition-all"
         >
           Contacts
         </Link>
         <Link
           to="/messages"
-          className="text-radix-mauve11 hover:text-radix-mauve12 hover:scale-110 transition-all"
+          className="text-radix-mauve11 hover:text-radix-violet11 hover:scale-110 transition-all"
         >
           Messages
         </Link>
 
         <Link
           to="/appointments"
-          className="text-radix-mauve11 hover:text-radix-mauve12 hover:scale-110 transition-all"
+          className="text-radix-mauve11 hover:text-radix-violet11 hover:scale-110 transition-all"
         >
           Appointments
         </Link>

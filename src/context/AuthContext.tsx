@@ -1,11 +1,21 @@
-import React from "react";
-import { auth } from "firebase-config";
+import React, { useEffect } from "react";
+import { auth, db } from "firebase-config";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { createContext, useContext, useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
 
 interface IAuthContext {
   user: User | null;
-  loading: boolean;
+  // loading: boolean;
+  profile: Profile | null;
+  setProfile: (user: Profile) => void;
+}
+
+interface Profile {
+  firstName: string;
+  lastName: string;
+  email: string;
+  uid: string;
 }
 
 interface AuthProvider {
@@ -22,18 +32,33 @@ export const AuthContext = createContext<IAuthContext>(undefined!);
 
 export const AuthProvider = ({ children }: AuthProvider) => {
   const [user, setUser] = useState<IAuthContext["user"]>(null);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  const [profile, setProfile] = useState<IAuthContext["profile"]>(null);
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setUser(user);
-    } else {
-      setUser(null);
-    }
-  });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUser(user);
+        const documentRef = doc(db, "profiles", user.uid);
+        const profileSnapshot = await getDoc(documentRef);
+        const profile = {
+          ...profileSnapshot.data(),
+        } as Profile;
+        setProfile(profile);
+
+        //Profile
+      } else {
+        setUser(null);
+      }
+    });
+
+    () => unsubscribe();
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider
+      value={{ user, profile: profile, setProfile: setProfile }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -41,3 +66,4 @@ export const AuthProvider = ({ children }: AuthProvider) => {
 
 export const useAuthContext = () => useContext(AuthContext);
 export const useUser = () => useAuthContext().user;
+export const useProfile = () => useAuthContext().profile;

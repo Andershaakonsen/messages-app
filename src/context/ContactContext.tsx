@@ -31,10 +31,7 @@ interface ContactProviderProps {
 //Centralized place where all business logic is handled
 export const ContactProvider = ({ children }: ContactProviderProps) => {
   const [contacts, setContacts] = useState<Contact[]>([]);
-  // const [userSearch, setUserSearch] = useState("");
   const user = useUser();
-
-  // const contactsRef = collection(db, "contacts");
 
   //Set data
 

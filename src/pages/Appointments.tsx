@@ -1,19 +1,11 @@
 import React from "react";
 
-type Props = {
-  navn: string;
-};
-
-const Appointments: React.FC<Props> = ({ navn }) => {
-  return <div>Appointments</div>;
+const Appointments = () => {
+  return (
+    <div className="h-screen flex justify-center mt-28">
+      <h2 className="text-radix-violet8">Not implemented yet!</h2>
+    </div>
+  );
 };
 
 export default Appointments;
-
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  color: "red" | "blue";
-}
-
-const Button = ({ className, ...props }: ButtonProps) => {
-  return <button {...props} className={`${className} bg-red-50 p-4`} />;
-};

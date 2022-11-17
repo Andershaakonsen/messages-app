@@ -11,7 +11,7 @@ const Messages = () => {
   const [room, setRoom] = useState<Room | null>(null);
   const mountedRef = useRef(false);
   const user = useUser();
-  const [receiverContact, setReceiverContact] = useState<Contact | null>();
+  const [receiverContact, setReceiverContact] = useState<Contact | undefined>();
 
   const [input, setInput] = useState("");
   const [params] = useSearchParams();
@@ -85,11 +85,11 @@ const Messages = () => {
         <Conversation
           room={room}
           setRoom={setRoom}
-          receiverContact={receiverContact}
+          receiverContact={receiverContact!}
         />
       ) : (
-        <div className="flex flex-col ">
-          <label className="text-radix-mauve11 ">Send message to: </label>
+        <div className="flex flex-col items-center mt-4 ">
+          <label className="text-radix-violet11 text-lg">Send message to</label>
           <input
             className="bg-radix-mauve3 border border-radix-mauve4 rounded-md p-2 outline-none focus:border-radix-violet5 focus:border w-2/3 mt-2"
             placeholder="Enter contact info"
@@ -98,12 +98,12 @@ const Messages = () => {
           />
 
           {input && (
-            <ul>
+            <ul className="flex flex-col items-start w-2/3">
               {searchedContacts.map((el) => (
                 <li
                   onClick={() => handleGetRoom(el)}
                   key={el.id}
-                  className="cursor-pointer border-b border-b-radix-mauve5 hover:scale-110 transition-all"
+                  className="cursor-pointer border-b border-b-radix-mauve5 hover:scale-105 transition-all w-56 mt-1"
                 >{`${el.firstName} ${el.lastName}`}</li>
               ))}
             </ul>

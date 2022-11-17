@@ -77,7 +77,7 @@ const Conversation = ({ room, setRoom, receiverContact }: IConversation) => {
       <h2 className="flex justify-center text-xl">
         {receiverContact.firstName} {receiverContact.lastName}
       </h2>
-      <div className="flex flex-col mx-auto w-5/6 md:w-full border border-radix-mauve4 h-96 rounded-lg mt-2 px-1 overflow-y-auto">
+      <div className="flex flex-col mx-auto w-5/6 md:w-full border border-radix-mauve4 h-96 rounded-lg mt-2 p-1 overflow-y-auto">
         <>
           {messages.map((mes) => {
             return user?.uid === mes.senderId ? (
@@ -100,7 +100,7 @@ const Conversation = ({ room, setRoom, receiverContact }: IConversation) => {
             value={input}
           />
           <button>
-            <IoIosSend className="-ml-10 text-lg on" />
+            <IoIosSend className="-ml-10 text-lg on hover:scale-125 transition-all" />
           </button>
         </form>
       </div>
