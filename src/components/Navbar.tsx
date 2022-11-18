@@ -17,13 +17,6 @@ const Navbar = () => {
         >
           Messages
         </Link>
-
-        <Link
-          to="/appointments"
-          className="text-radix-mauve11 hover:text-radix-violet11 hover:scale-110 transition-all"
-        >
-          Appointments
-        </Link>
       </ul>
     </nav>
   );

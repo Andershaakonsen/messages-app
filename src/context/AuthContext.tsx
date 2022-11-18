@@ -9,6 +9,7 @@ interface IAuthContext {
   // loading: boolean;
   profile: IProfile | null;
   setProfile: (user: IProfile) => void;
+  loading: boolean;
 }
 
 interface AuthProvider {
@@ -25,10 +26,14 @@ export const AuthContext = createContext<IAuthContext>(undefined!);
 
 export const AuthProvider = ({ children }: AuthProvider) => {
   const [user, setUser] = useState<IAuthContext["user"]>(null);
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<IAuthContext["profile"]>(null);
 
   useEffect(() => {
+    // Callback is ran:
+    // When firebase auth has loaded
+    // When we have a user
+    // When the user logs out
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUser(user);
@@ -43,6 +48,8 @@ export const AuthProvider = ({ children }: AuthProvider) => {
       } else {
         setUser(null);
       }
+
+      setLoading(false);
     });
 
     () => unsubscribe();
@@ -50,7 +57,7 @@ export const AuthProvider = ({ children }: AuthProvider) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, profile: profile, setProfile: setProfile }}
+      value={{ user, profile: profile, setProfile: setProfile, loading }}
     >
       {children}
     </AuthContext.Provider>
@@ -60,3 +67,4 @@ export const AuthProvider = ({ children }: AuthProvider) => {
 export const useAuthContext = () => useContext(AuthContext);
 export const useUser = () => useAuthContext().user;
 export const useProfile = () => useAuthContext().profile;
+export const useLoading = () => useAuthContext().loading;

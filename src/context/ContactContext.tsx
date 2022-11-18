@@ -42,7 +42,7 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
 
   useEffect(() => {
     if (!user?.uid) return;
-    const contactsRef = collection(db, "accounts", user.uid, "contacts");
+    const contactsRef = collection(db, "profiles", user.uid, "contacts");
 
     const unSubscribe = onSnapshot(contactsRef, (contactsCollection) => {
       const contacts = contactsCollection.docs.map((doc) => {
@@ -57,7 +57,7 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
   }, [user?.uid]);
 
   const addContact = async (account: Account) => {
-    await addDoc(collection(db, "accounts", user!.uid, "contacts"), {
+    await addDoc(collection(db, "profiles", user!.uid, "contacts"), {
       firstName: account.firstName,
       lastName: account.lastName,
       email: account.email,
@@ -71,13 +71,13 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
   // };
 
   const updateContact = async (contact: Contact) => {
-    await updateDoc(doc(db, "accounts", user!.uid, "contacts", contact.id), {
+    await updateDoc(doc(db, "profiles", user!.uid, "contacts", contact.id), {
       ...contact,
     });
   };
 
   const deleteContact = async (contact: Contact) => {
-    await deleteDoc(doc(db, "accounts", user!.uid, "contacts", contact.id));
+    await deleteDoc(doc(db, "profiles", user!.uid, "contacts", contact.id));
   };
 
   const getContactFromId = (id: string) =>

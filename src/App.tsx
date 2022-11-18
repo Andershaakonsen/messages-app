@@ -1,18 +1,26 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Appointments from "./pages/Appointments";
 import Contacts from "./pages/Contacts";
 import Messages from "./pages/Messages";
 import Navbar from "./components/Navbar";
-import { useAuthContext } from "context/AuthContext";
+import { useAuthContext, useLoading } from "context/AuthContext";
 import AuthPage from "components/AuthPage";
 import { auth } from "firebase-config";
 import { CgProfile } from "react-icons/cg";
 import Profile from "pages/Profile";
 import { Link } from "react-router-dom";
+import { FaSpinner } from "react-icons/fa";
 
 const App = () => {
   const { profile, user } = useAuthContext();
+  const loading = useLoading();
+
+  if (loading)
+    return (
+      <div className="flex w-full justify-center mt-60">
+        <FaSpinner className="animate-spin text-3xl text-radix-violet7" />
+      </div>
+    );
   return (
     <>
       {user ? (
@@ -36,7 +44,6 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Contacts />} />
               <Route path="/messages" element={<Messages />} />
-              <Route path="/appointments" element={<Appointments />} />
               <Route path="/profile" element={<Profile />} />
             </Routes>
           </div>
