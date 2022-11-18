@@ -3,12 +3,12 @@ import { useForm } from "react-hook-form";
 import { useAddContact } from "../context/ContactContext";
 import { IoMdArrowBack } from "react-icons/io";
 import { Account } from "context/AuthContext";
-export interface IContactForm {
+
+export interface Props {
   setShowAddContact: (bool: boolean) => void;
-  onSubmit: (account: Account) => void;
 }
 
-const ContactForm = ({ setShowAddContact }: IContactForm) => {
+const ContactForm = ({ setShowAddContact }: Props) => {
   //Context
   const addContact = useAddContact();
   const { register, handleSubmit, reset } = useForm<Account>();

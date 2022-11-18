@@ -1,7 +1,7 @@
 import { useAuthContext } from "context/AuthContext";
 import { db } from "firebase-config";
 import { doc, updateDoc } from "firebase/firestore";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 
 function Profile() {
@@ -12,7 +12,7 @@ function Profile() {
     reset({ firstName: "", lastName: "", email: "" });
   };
   const onSubmit = async (data: IProfile) => {
-    await updateDoc(doc(db, "profiles", profile?.uid), {
+    await updateDoc(doc(db, "profiles", profile!.uid), {
       ...data,
       uid: profile?.uid,
     });
