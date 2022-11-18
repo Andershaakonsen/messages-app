@@ -54,7 +54,7 @@ const ContactCard = ({ contact }: IContactCard) => {
 
   const handleDelete = async () => {
     try {
-      await deleteContact(contact);
+      deleteContact(contact);
       toast.error(`Deleted ${contact.firstName} from list!`);
     } catch (error) {
       console.log(error);

@@ -66,7 +66,7 @@ const Conversation = ({ room, setRoom, receiverContact }: IConversation) => {
   };
 
   return (
-    <div className="flex flex-col md:w-2/3 mx-auto ">
+    <div className="flex flex-col md:w-3/5  mx-auto ">
       <div className="grid grid-cols-12 items-center py-1">
         <IoMdArrowBack
           onClick={() => setRoom(null)}
@@ -77,7 +77,7 @@ const Conversation = ({ room, setRoom, receiverContact }: IConversation) => {
       <h2 className="flex justify-center text-xl">
         {receiverContact.firstName} {receiverContact.lastName}
       </h2>
-      <div className="flex flex-col mx-auto w-5/6 md:w-full border border-radix-mauve4 h-96 rounded-lg mt-2 p-1 overflow-y-auto">
+      <div className="flex flex-col mx-auto w-5/6 md:w-full border border-radix-mauve4 h-80 rounded-lg mt-2 p-1 overflow-y-auto">
         <>
           {messages.map((mes) => {
             return user?.uid === mes.senderId ? (

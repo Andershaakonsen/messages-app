@@ -13,6 +13,13 @@ interface Room {
   users: Record<string, string | null>;
 }
 
+interface IProfile {
+  firstName: string;
+  lastName: string;
+  email: string;
+  uid: string;
+}
+
 interface Message {
   id: string;
   text: string;

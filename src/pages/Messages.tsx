@@ -93,8 +93,8 @@ const Messages = () => {
           <input
             className="bg-radix-mauve3 border border-radix-mauve4 rounded-md p-2 outline-none focus:border-radix-violet5 focus:border w-2/3 mt-2"
             placeholder="Enter contact info"
-            value={input}
             onChange={(e) => setInput(e.target.value)}
+            value={input}
           />
 
           {input && (

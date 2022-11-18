@@ -7,15 +7,8 @@ import { doc, getDoc } from "firebase/firestore";
 interface IAuthContext {
   user: User | null;
   // loading: boolean;
-  profile: Profile | null;
-  setProfile: (user: Profile) => void;
-}
-
-interface Profile {
-  firstName: string;
-  lastName: string;
-  email: string;
-  uid: string;
+  profile: IProfile | null;
+  setProfile: (user: IProfile) => void;
 }
 
 interface AuthProvider {
@@ -43,7 +36,7 @@ export const AuthProvider = ({ children }: AuthProvider) => {
         const profileSnapshot = await getDoc(documentRef);
         const profile = {
           ...profileSnapshot.data(),
-        } as Profile;
+        } as IProfile;
         setProfile(profile);
 
         //Profile
