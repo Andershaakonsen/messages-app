@@ -5,7 +5,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 function Profile() {
-  const profile = useAuthContext().profile;
+  const { profile, setProfile } = useAuthContext();
+
   const { register, handleSubmit, reset } = useForm<IProfile>();
 
   const handleReset = () => {
@@ -16,7 +17,7 @@ function Profile() {
       ...data,
       uid: profile?.uid,
     });
-    console.log(profile);
+    setProfile({ ...data, uid: profile!.uid });
 
     handleReset();
   };
